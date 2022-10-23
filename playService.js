@@ -83,7 +83,7 @@ const checkWinner = (board) => {
 
 const play = (board) => {
 
-    if (!isValid(board)) return "Invalid Board"
+    if (!isValid(board)) return null
     const formattedBoard = format(board)
     console.log("formattedBoard =", formattedBoard)
     const chunked = chunk(formattedBoard)

@@ -4,13 +4,17 @@ const getHandler = (request, response) => {
   const query = url.searchParams.get("board");
 
   const responseBoard = play(query);
+  if (responseBoard == null) {
+    response.statusCode = 400;
+    response.end("Invalid Board");
+  } else {
 
   response.writeHead(200, {
     "Content-Type": "application/text",
   });
   response.write(responseBoard);
   response.end();
-
+  }
 };
 
 const defaultHandler = (request, response) => {
