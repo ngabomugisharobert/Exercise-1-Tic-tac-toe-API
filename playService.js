@@ -1,17 +1,12 @@
-const { chunk } = require("./utils");
+const { chunk, isValid } = require("./utils");
 
-const isValid = board => {
-    if (board.length == 9)
-        return true
-    else
-        return false
-}
 
-let computerTurn = false
+
 
 
 const format = (board) =>
     board.split('')
+
 
 
 const equals3 = (a, b, c) => {
@@ -87,10 +82,8 @@ const checkWinner = (board) => {
 };
 
 const play = (board) => {
-    if (board.indexOf('x') == -1)
-        computerTurn = true
 
-    console.log("Computer turn =", computerTurn)
+    if (!isValid(board)) return "Invalid Board"
     const formattedBoard = format(board)
     console.log("formattedBoard =", formattedBoard)
     const chunked = chunk(formattedBoard)
