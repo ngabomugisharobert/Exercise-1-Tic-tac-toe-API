@@ -14,7 +14,7 @@ const getHandler = (request, response) => {
     const chunkedBoard = chunk(board)
     console.log(chunkedBoard)
     const res = checkWinner(chunkedBoard)
-
+    console.log(res, 'res')
     if (res === "tie") {
       response.statusCode = 200;
       response.end("tie");

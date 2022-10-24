@@ -1,6 +1,10 @@
 
-const chunk = (array) => {
-    array = array.split('')
+const chunk = (string) => {
+    //replace " " with "+" in string
+    temp_board = string.replace(/ /g, "+")
+
+
+    array = temp_board.split('')
     let resultArray = [];
     let chunkSize = array.length / 3;
     for (i = 0; i < chunkSize; i++) {
@@ -11,9 +15,19 @@ const chunk = (array) => {
 
 
 const isValid = board => {
+    // check if the board length is valid
     if ((board + '').length !== 9) {
         return false;
     }
+
+    // check if the board contains only x, o, ' '
+    const validChars = ['x', 'o', ' '];
+    for (let i = 0; i < board.length; i++) {
+        if (!validChars.includes(board[i])) {
+            return false;
+        }
+    }
+
 
     const playersPlay = (new String(board)).replace(/[^x]/g, "").length
     const computersPlay = (new String(board)).replace(/[^o]/g, "").length
@@ -23,10 +37,7 @@ const isValid = board => {
         if (playersPlay + computersPlay !== 9)
             return false
 
-    //check if board only contains only x, o and +
-    const match = board.match(/[x+o]/g)
-    if (match === null || match.length !== 9)
-        return false
+
 
     return true
 }
