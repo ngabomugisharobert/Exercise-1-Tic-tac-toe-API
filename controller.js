@@ -1,19 +1,41 @@
-const { play } = require("./playService");
+const { checkWinner } = require("./services/checkingWinner");
+const { play } = require('./services/play');
+const { chunk, isValid } = require("./utils");
 const getHandler = (request, response) => {
   const url = new URL(request.url, `http://${request.headers.host}`);
-  const query = url.searchParams.get("board");
+  const board = url.searchParams.get("board");
 
-  const responseBoard = play(query);
-  if (responseBoard == null) {
+  if (!isValid(board)) {
     response.statusCode = 400;
     response.end("Invalid Board");
-  } else {
+  }
+  else {
 
-  response.writeHead(200, {
-    "Content-Type": "application/text",
-  });
-  response.write(responseBoard);
-  response.end();
+    const chunkedBoard = chunk(board)
+    console.log(chunkedBoard)
+    const res = checkWinner(chunkedBoard)
+
+    if (res === "tie") {
+      response.statusCode = 200;
+      response.end("tie");
+    }
+
+    if (res === "x") {
+      response.statusCode = 200;
+      response.end("Player Win");
+    }
+
+    if (res === "o") {
+      response.statusCode = 200;
+      response.end("Computer Win");
+    }
+
+    if (res === "+") {
+      //play
+      const newBoard = play(chunkedBoard)
+      response.statusCode = 200;
+      response.end(newBoard);
+    }
   }
 };
 
